@@ -44,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (getSupportActionBar()!=null){
+            getSupportActionBar().hide();
+        }
+//        getActionBar().getCustomView();
 
         fragment1 = Fragment1.getInstance();
         fragment2 = Fragment2.getInstance();
@@ -66,4 +70,5 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(containerViewId, fragment);
         fragmentTransaction.commit();
     }
+
 }

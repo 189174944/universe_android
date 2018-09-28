@@ -5,18 +5,58 @@
     android:layout_height="match_parent"
     tools:context=".Fragment1">
 
-    <!-- TODO: Update blank fragment layout -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/myText"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:background="#ffffff"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="1700dp" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:text="kkkkkkk"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="38dp"
+                android:background="#ffffff"
+                android:scrollbars="none"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.fullstackvalley.fragmenttest.widget.HomeHScrollViewCell
+                        android:layout_width="300dp"
+                        android:layout_height="185dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/circlecorner" />
+
+                    <com.fullstackvalley.fragmenttest.widget.HomeHScrollViewCell
+                        android:layout_width="300dp"
+                        android:layout_height="185dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/circlecorner1" />
+                </LinearLayout>
+            </HorizontalScrollView>
+            <View
+                android:layout_width="match_parent"
+                android:background="#9e9500"
+                android:layout_marginTop="300dp"
+                android:layout_height="1000dp"/>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
+
