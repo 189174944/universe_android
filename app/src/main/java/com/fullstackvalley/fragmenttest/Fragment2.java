@@ -2,13 +2,38 @@ package com.fullstackvalley.fragmenttest;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fullstackvalley.fragmenttest.http.HttpClient;
+import com.fullstackvalley.fragmenttest.http.api.UsersApi;
+import com.fullstackvalley.fragmenttest.http.beans.JokeBean;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Fragment2 extends Fragment {
 
     static Fragment2 fragment;
+    private RecyclerView mRecyclerView;
+    private List<JokeBean.ResultBean.DataBean> jokeBean = new ArrayList<>();
+    HomeRecyclerViewAdapter homeRecyclerViewAdapter;
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    int page = 1;
+    int pageSize = 3;
+    boolean loading = true;
+    boolean isRefreshing = false;
 
     static public Fragment2 getInstance() {
         if (fragment == null) {
@@ -20,7 +45,70 @@ public class Fragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment2, container, false);
+        View view = inflater.inflate(R.layout.fragment_fragment2, container, false);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.mRecyclerView);
+        homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(jokeBean);
+
+//        swipeRefreshLayout
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (!isRefreshing) {
+                    isRefreshing = true;
+                    jokeBean.clear();
+                    page=1;
+                    load();
+                }
+            }
+        });
+
+        mRecyclerView.setAdapter(homeRecyclerViewAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(container.getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//            }
+//        });
+        load();
+        return view;
+    }
+
+    public void load() {
+        UsersApi service = HttpClient.getJokeRetrofit().create(UsersApi.class);
+        Call<JokeBean> call = service.getJoke2(page, pageSize);
+        call.enqueue(new Callback<JokeBean>() {
+
+            @Override
+            public void onResponse(Call<JokeBean> call, Response<JokeBean> response) {
+                if (response.isSuccessful()) {
+                    page++;
+                    Log.e(">>>>>>", "请求成功");
+                    jokeBean.addAll(response.body().getResult().getData());
+                    homeRecyclerViewAdapter.notifyDataSetChanged();
+                    homeRecyclerViewAdapter.setFooterLayoutStatus(1);
+                    loading = false;
+                    if (isRefreshing) {
+                        isRefreshing = false;
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JokeBean> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }
