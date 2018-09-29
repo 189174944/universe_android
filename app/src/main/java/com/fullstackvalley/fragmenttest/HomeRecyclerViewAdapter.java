@@ -77,9 +77,9 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemCount() {
-        int size = jokeBeans != null ? jokeBeans.size()+1 : 0;
+        int size = jokeBeans != null ? jokeBeans.size() : 0;
         Log.e(">>>>", size + "");
-        return size;
+        return size+1;
     }
 
     public class MyCell extends RecyclerView.ViewHolder {
@@ -103,12 +103,11 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        if (position == (getItemCount() - 1)) {
-            setFooterLayoutStatus(0);
+        if (position + 1 == getItemCount()) {
             return LAYOUT_FOOTER;
+        } else {
+            return LAYOUT_ITEM;
         }
-        return LAYOUT_ITEM;
-
     }
 
 }

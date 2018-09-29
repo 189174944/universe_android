@@ -29,6 +29,8 @@ public class Fragment2 extends Fragment {
     private List<JokeBean.ResultBean.DataBean> jokeBean = new ArrayList<>();
     HomeRecyclerViewAdapter homeRecyclerViewAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    int lastVisibleItem = 0;
+    LinearLayoutManager linearLayoutManager;
 
     int page = 1;
     int pageSize = 3;
@@ -65,26 +67,31 @@ public class Fragment2 extends Fragment {
         });
 
         mRecyclerView.setAdapter(homeRecyclerViewAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(container.getContext());
+        linearLayoutManager = new LinearLayoutManager(container.getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
-//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//            }
-//        });
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE &&  lastVisibleItem + 1 == homeRecyclerViewAdapter.getItemCount() && !loading&&!isRefreshing) {
+                    load();
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+            }
+        });
         load();
         return view;
     }
 
     public void load() {
+        loading=true;
         UsersApi service = HttpClient.getJokeRetrofit().create(UsersApi.class);
         Call<JokeBean> call = service.getJoke2(page, pageSize);
         call.enqueue(new Callback<JokeBean>() {
@@ -107,6 +114,7 @@ public class Fragment2 extends Fragment {
 
             @Override
             public void onFailure(Call<JokeBean> call, Throwable t) {
+                loading=false;
                 t.printStackTrace();
             }
         });
