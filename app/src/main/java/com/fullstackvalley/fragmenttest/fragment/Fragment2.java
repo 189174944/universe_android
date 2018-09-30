@@ -1,5 +1,7 @@
-package com.fullstackvalley.fragmenttest;
+package com.fullstackvalley.fragmenttest.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,14 +11,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.fullstackvalley.fragmenttest.HomeRecyclerViewAdapter;
+import com.fullstackvalley.fragmenttest.MainActivity;
+import com.fullstackvalley.fragmenttest.R;
 import com.fullstackvalley.fragmenttest.http.HttpClient;
 import com.fullstackvalley.fragmenttest.http.api.UsersApi;
 import com.fullstackvalley.fragmenttest.http.beans.JokeBean;
+import com.fullstackvalley.fragmenttest.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,6 +31,7 @@ import retrofit2.Response;
 public class Fragment2 extends Fragment {
 
     static Fragment2 fragment;
+    private Context context;
     private RecyclerView mRecyclerView;
     private List<JokeBean.ResultBean.DataBean> jokeBean = new ArrayList<>();
     HomeRecyclerViewAdapter homeRecyclerViewAdapter;
@@ -45,8 +52,38 @@ public class Fragment2 extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
+        context = container.getContext();
+
+        if (!Utils.isNetWorkAvailable(container.getContext())){
+            View view = LayoutInflater.from(container.getContext()).inflate(R.layout.network_disable, container, false);
+            TextView refresh = (TextView) view.findViewById(R.id.refresh);
+            refresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//
+//                    android.support.v4.app.FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                    android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                    fragmentTransaction.replace(R.id.myContainer, fragment);
+//                    fragmentTransaction.commit();
+
+                    MainActivity mainActivity = (MainActivity)getActivity();
+                    mainActivity.i(R.id.myContainer, Fragment2.getInstance());
+
+//                    重启Activity
+//                    Intent intent = getIntent();
+//                    overridePendingTransition(0, 0);
+//                    finish();
+//                    overridePendingTransition(0, 0);
+//                    startActivity(intent);
+//                    重启Activity
+                }
+            });
+            return view;
+        }
+
+
         View view = inflater.inflate(R.layout.fragment_fragment2, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.mRecyclerView);
         homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(jokeBean);
@@ -86,11 +123,23 @@ public class Fragment2 extends Fragment {
                 lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
             }
         });
-        load();
+
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        load();
+    }
+
     public void load() {
+
+        if (!Utils.isNetWorkAvailable(context)){
+            MainActivity mainActivity = (MainActivity)getActivity();
+            mainActivity.i(R.id.myContainer, Fragment2.getInstance());
+            return;
+        }
         loading=true;
         UsersApi service = HttpClient.getJokeRetrofit().create(UsersApi.class);
         Call<JokeBean> call = service.getJoke2(page, pageSize);

@@ -12,8 +12,13 @@
         android:title="@string/title_dashboard" />
 
     <item
+        android:id="@+id/im"
+        android:icon="@drawable/home_bottom_chat"
+        android:title="消息" />
+
+    <item
         android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
+        android:icon="@drawable/home_bottombar_me"
+        android:title="我" />
 
 </menu>

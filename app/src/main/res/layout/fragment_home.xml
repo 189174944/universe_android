@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#F4F4F4"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Fragment1">
+    android:layout_height="match_parent">
 
     <ScrollView
+        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -26,6 +26,7 @@
             </LinearLayout>
 
             <HorizontalScrollView
+                android:id="@+id/mScrollView"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:layout_width="match_parent"
@@ -38,12 +39,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:orientation="horizontal">
 
                     <com.fullstackvalley.fragmenttest.widget.HomeHScrollViewCell
                         android:layout_width="300dp"
                         android:layout_height="185dp"
-                        android:layout_marginLeft="5dp"
                         android:background="@drawable/circlecorner" />
 
                     <com.fullstackvalley.fragmenttest.widget.HomeHScrollViewCell
@@ -53,6 +55,16 @@
                         android:background="@drawable/circlecorner1" />
                 </LinearLayout>
             </HorizontalScrollView>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn"/>
+            <TextView
+                android:background="@color/colorPrimary"
+                android:id="@+id/myText"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Hello World"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"

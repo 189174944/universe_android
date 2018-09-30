@@ -6,10 +6,34 @@
     android:padding="8dp"
     android:background="@drawable/circlecorner"
     android:orientation="vertical">
+    <android.support.design.widget.TextInputLayout android:layout_height="wrap_content" android:layout_width="match_parent">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </android.support.design.widget.TextInputLayout>
 
     <TextView
         android:id="@+id/content"
+        android:textSize="16sp"
+        android:textColor="#cfcfcf"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/content2"
+        android:textSize="14sp"
+        android:text="有阿斯顿大叔的珠江新城来了就"
+        android:textColor="#fa0a0a"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/content3"
         android:textSize="18sp"
+        android:text="有阿斯顿大叔的珠江新城来了就"
+        android:textColor="#000000"
         android:fontFamily="sans-serif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
