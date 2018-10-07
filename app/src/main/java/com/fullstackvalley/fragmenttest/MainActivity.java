@@ -7,7 +7,10 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenu;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
@@ -24,7 +27,7 @@ import com.fullstackvalley.fragmenttest.fragment.Fragment3;
 import com.fullstackvalley.fragmenttest.fragment.HomeFragment;
 import com.fullstackvalley.fragmenttest.helpers.BottomNavigationViewHelper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     FrameLayout frameLayout;
     HomeFragment homeFragment;
@@ -121,10 +124,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            badge.setVisibility(View.INVISIBLE);
-            exit();
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
             return false;
+        } else {
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                badge.setVisibility(View.INVISIBLE);
+                exit();
+                return false;
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -140,4 +150,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }

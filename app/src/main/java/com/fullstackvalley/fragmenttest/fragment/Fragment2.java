@@ -123,6 +123,7 @@ public class Fragment2 extends Fragment {
                 lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
             }
         });
+        load();
 
         return view;
     }
@@ -130,7 +131,6 @@ public class Fragment2 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        load();
     }
 
     public void load() {
