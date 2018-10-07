@@ -3,12 +3,19 @@ package com.fullstackvalley.fragmenttest;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenu;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.fullstackvalley.fragmenttest.fragment.ChatFragment;
@@ -25,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment2 fragment2;
     Fragment3 fragment3;
     long exitTime = 0;
+    View badge;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -54,6 +62,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) this.findViewById(R.id.navigation);
+
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
+
+        BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(2);
+
+        //加载我们的角标View，新创建的一个布局
+        badge = LayoutInflater.from(this).inflate(R.layout.my_badge, menuView, false);
+
+//添加到Tab上
+        itemView.addView(badge);
+
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
@@ -100,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            badge.setVisibility(View.INVISIBLE);
             exit();
             return false;
         }
