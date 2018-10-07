@@ -11,7 +11,6 @@ public class HttpClient {
     //接口A
     public static Retrofit getMainRetrofit() {
         Gson gson = new GsonBuilder()
-                //配置你的Gson
                 .setDateFormat("yyyy-MM-dd hh:mm:ss")
                 .create();
         return new Retrofit.Builder()

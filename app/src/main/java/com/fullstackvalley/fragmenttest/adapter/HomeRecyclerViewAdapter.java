@@ -1,4 +1,4 @@
-package com.fullstackvalley.fragmenttest;
+package com.fullstackvalley.fragmenttest.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fullstackvalley.fragmenttest.R;
 import com.fullstackvalley.fragmenttest.http.beans.JokeBean;
 import com.orhanobut.logger.Logger;
 

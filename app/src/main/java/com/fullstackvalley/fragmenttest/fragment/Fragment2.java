@@ -1,7 +1,6 @@
 package com.fullstackvalley.fragmenttest.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.fullstackvalley.fragmenttest.HomeRecyclerViewAdapter;
+import com.fullstackvalley.fragmenttest.adapter.HomeRecyclerViewAdapter;
 import com.fullstackvalley.fragmenttest.MainActivity;
 import com.fullstackvalley.fragmenttest.R;
 import com.fullstackvalley.fragmenttest.http.HttpClient;
@@ -144,6 +143,7 @@ public class Fragment2 extends Fragment {
         UsersApi service = HttpClient.getJokeRetrofit().create(UsersApi.class);
         Call<JokeBean> call = service.getJoke2(page, pageSize);
         call.enqueue(new Callback<JokeBean>() {
+
 
             @Override
             public void onResponse(Call<JokeBean> call, Response<JokeBean> response) {
