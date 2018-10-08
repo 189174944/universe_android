@@ -1,12 +1,17 @@
 package com.fullstackvalley.fragmenttest.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fullstackvalley.fragmenttest.ChatWindowActivity;
 import com.fullstackvalley.fragmenttest.R;
 import com.fullstackvalley.fragmenttest.beans.Message;
 import com.fullstackvalley.fragmenttest.fragment.ChatFragment;
@@ -16,9 +21,11 @@ import java.util.List;
 public class ChatFriendRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<Message> dataSet;
+    Context context;
 
-    public ChatFriendRecyclerViewAdapter(List<Message> dataSet) {
+    public ChatFriendRecyclerViewAdapter(List<Message> dataSet, Context context) {
         this.dataSet = dataSet;
+        this.context = context;
     }
 
     @NonNull
@@ -31,10 +38,18 @@ public class ChatFriendRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof FriendCell) {
-            FriendCell friendCell = (FriendCell) holder;
-            friendCell.index=position;
+            final FriendCell friendCell = (FriendCell) holder;
             int number = dataSet.get(position).getMessageItems().size() > 0 ? dataSet.get(position).getMessageItems().size() : 0;
             friendCell.badge.setText(number + "");
+            friendCell.myCell.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, ChatWindowActivity.class);
+                    context.startActivity(intent);
+                    Toast.makeText(context, position + "", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
@@ -45,9 +60,12 @@ public class ChatFriendRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
     public class FriendCell extends RecyclerView.ViewHolder {
         TextView badge;
+        RelativeLayout myCell;
+
         public FriendCell(View itemView) {
             super(itemView);
             badge = (TextView) itemView.findViewById(R.id.badge);
+            myCell = (RelativeLayout) itemView.findViewById(R.id.myCell);
         }
     }
 }
