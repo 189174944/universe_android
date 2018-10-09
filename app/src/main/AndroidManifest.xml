@@ -38,7 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:windowSoftInputMode="adjustUnspecified|stateHidden" android:configChanges="orientation|keyboardHidden" android:name=".ChatWindowActivity" android:theme="@style/ActionBarTheme">
+        <activity android:launchMode="singleTask" android:windowSoftInputMode="adjustUnspecified|stateHidden" android:configChanges="orientation|keyboardHidden" android:name=".ChatWindowActivity" android:theme="@style/ActionBarTheme">
         </activity>
     </application>
 

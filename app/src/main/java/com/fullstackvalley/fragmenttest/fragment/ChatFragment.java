@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.fullstackvalley.fragmenttest.MainActivity;
 import com.fullstackvalley.fragmenttest.R;
 import com.fullstackvalley.fragmenttest.adapter.ChatFriendRecyclerViewAdapter;
 import com.fullstackvalley.fragmenttest.beans.Message;
+import com.fullstackvalley.fragmenttest.layout.MyDragDeleteRelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +85,13 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
 
+
+
+
+
+
+
+
         recyclerView = (RecyclerView) view.findViewById(R.id.mRecyclerView);
         ChatFriendRecyclerViewAdapter adapter = new ChatFriendRecyclerViewAdapter(dataSet, view.getContext());
 
@@ -94,6 +103,7 @@ public class ChatFragment extends Fragment {
         recyclerView.addItemDecoration(divider);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
+
         recyclerView.setAdapter(adapter);
 //        setBadge(10);
 //        统计小红点数量

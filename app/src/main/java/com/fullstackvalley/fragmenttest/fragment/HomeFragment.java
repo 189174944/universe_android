@@ -25,6 +25,7 @@ import butterknife.Unbinder;
 public class HomeFragment extends Fragment {
     @BindView(R.id.myText)
     TextView textView;
+
     @BindView(R.id.mScrollView)
     HorizontalScrollView mScrollView;
     long lastScrollTime;
@@ -50,6 +51,17 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
         Log.e(">>>", "视图创建");
+
+//        textView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_MOVE) {
+//                    textView.offsetLeftAndRight((int)event.getX());
+//                }
+//
+//                return true;
+//            }
+//        });
         return view;
     }
 
@@ -71,19 +83,19 @@ public class HomeFragment extends Fragment {
             public void onScrollChange(View v, final int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollX > 0) {
                     float x = scrollX * (1 / 505f);
-                    if (x<0){
-                        x=0;
-                    }else if (x>1){
-                        x=1;
+                    if (x < 0) {
+                        x = 0;
+                    } else if (x > 1) {
+                        x = 1;
                     }
                     textView.setAlpha(x);
                     Log.e(">>>", scrollX * (1 / 505f) + "");
 
-                }else {
+                } else {
                     textView.setAlpha(0);
 
                 }
-                Log.e(">>>", scrollX+0.0f+"");
+                Log.e(">>>", scrollX + 0.0f + "");
             }
 
         });
